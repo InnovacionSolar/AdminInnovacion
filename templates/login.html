@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+{% block navegacion %}{% endblock navegacion %}
+{% block content %}
+<div class="flex flex-col justify-center min-h-full overflow-y-auto px-6 py-12 lg:px-8 ">
+    <div class="absolute inset-0 bg-black" style="background-image: url({% static 'img2.jfif' %});
+        background-size: cover;
+        background-position: right ;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        ">
+        <div class="sm:mx-auto sm:w-full sm:max-w-lg mt-10 bg-white rounded-lg shadow-lg px-8 py-6 md:px-10 md:py-8">
+            <a href="https://innovacionsolarperu.com" target="_blank">
+                <img class="mx-auto h-16 w-auto" src="https://i.ibb.co/k2WQrwx/logo2.webp" alt="InnovaciónSolarPerú">
+            </a>
+            <h2 class="mt-5 text-center text-3xl max-sm:text-2xl font-bold leading-9 tracking-tight">
+                Inicia sesión en tu cuenta
+            </h2>
+            <p class="text-center mt-2 text-gray-700 px-3">
+                "El éxito no es definitivo, el fracaso no es fatal: lo que cuenta es el coraje para continuar".
+            </p>
+
+            <div class="mt-3 sm:mx-auto sm:w-full sm:max-w-sm">
+                <form class="space-y-6" method="POST">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="mb-4">
+                            <ul class="list-disc list-inside text-red-600">
+                                {% for error_key, error_value in form.errors.items %}
+                                    <li>{{ error_value.0 }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-4 px-3">
+                            <label for="id_username" class="block text-sm font-medium text-gray-700 mb-1">Nombre de usuario:</label>
+                            <input type="text" name="username" id="id_username" class="w-full p-2 border border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4 px-3">
+                            <label for="id_password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña:</label>
+                            <div class="relative">
+                                <input type="password" name="password" id="id_password" class="w-full p-2 border border-gray-300 rounded-md pr-10">
+                                <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    </svg>
+
+                                </button>
+                            </div>
+                        </div>
+                    <div class="px-3">
+                        <button type="submit" class="flex  w-full justify-center rounded-md px-3 py-2.5 text-base font-semibold leading-6 text-white shadow-sm bg-gradient-to-r from-green-600 to-yellow-600 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Sign in
+                        </button>
+                    </div>
+                </form>
+                <div class="mt-3 flex justify-center items-center">
+                    <a href="{% url 'password_reset' %}" class="text-sm font-semibold text-green-600">
+                    Olvidé mi contraseña
+                    </a>
+                </div> 
+                <p class="mt-6 text-center text-sm text-black-200">
+                    ¿No tienes una cuenta?
+                    <a href="mailto:innovacionsolarventas@gmail.com?subject=Solicitud%20de%20Cuenta" class="font-semibold leading-6 text-green-600">
+                        Comunicate con el administrador
+                    </a>
+                </p>    
+            </div>
+            <div>
+                <div class="mt-6 flex justify-center items-center gap-4 text-center text-sm">
+                    <a href="https://www.facebook.com/InnovacionSolarPeru/" target="_blank">
+                        <?xml version="1.0" encoding="iso-8859-1"?>
+                        <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                        <svg height="45px" width="45px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                            viewBox="0 0 512.002 512.002" xml:space="preserve">
+                        <circle style="fill:#4E598F;" cx="256.001" cy="256" r="256"/>
+                        <g>
+                            <path style="fill:#FFFFFF;" d="M363.043,109.466H148.958c-21.809,0-39.49,17.68-39.49,39.49v214.085
+                                c0,21.811,17.68,39.49,39.49,39.49h105.584l0.183-104.722h-27.21c-3.536,0-6.406-2.86-6.418-6.396l-0.133-33.759
+                                c-0.014-3.553,2.867-6.444,6.42-6.444h27.162v-32.618c0-37.852,23.118-58.463,56.884-58.463h27.71c3.543,0,6.42,2.874,6.42,6.42
+                                v28.463c0,3.546-2.874,6.42-6.416,6.42l-17.006,0.01c-18.363,0-21.921,8.725-21.921,21.533v28.239h40.351
+                                c3.848,0,6.83,3.358,6.375,7.173l-4.001,33.759c-0.381,3.232-3.122,5.665-6.375,5.665h-36.168l-0.183,104.726h62.826
+                                c21.809,0,39.49-17.682,39.49-39.491v-214.09C402.533,127.147,384.852,109.466,363.043,109.466L363.043,109.466z"/>
+                            <polygon style="fill:#FFFFFF;" points="254.542,402.53 254.725,297.808 254.277,297.808 254.277,402.53 	"/>
+                        </g>
+                        <path style="fill:#ececec;" d="M363.043,109.466H254.277v141.741h0.269V218.59c0-37.852,23.118-58.463,56.884-58.463h27.71
+                            c3.543,0,6.42,2.874,6.42,6.42v28.463c0,3.546-2.874,6.42-6.416,6.42l-17.006,0.01c-18.363,0-21.921,8.725-21.921,21.533v28.238
+                            h40.351c3.848,0,6.83,3.358,6.375,7.173l-4.001,33.759c-0.381,3.232-3.122,5.665-6.375,5.665h-36.168l-0.183,104.726h62.826
+                            c21.809,0,39.49-17.682,39.49-39.491V148.956C402.533,127.147,384.852,109.466,363.043,109.466z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/innovacionsolarperu/" class="w-10" target="_blank">
+                        <?xml version="1.0" encoding="iso-8859-1"?>
+                            <svg height="45px" width="45px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                viewBox="0 0 512 512" xml:space="preserve">
+                            <circle style="fill:#6C27B3;" cx="256" cy="256" r="256"/>
+                            
+                            <g>
+                                <path style="fill:#FFFFFF;" d="M315.227,109.468H196.772c-48.14,0-87.304,39.164-87.304,87.304v118.455
+                                    c0,48.138,39.164,87.305,87.305,87.305h118.455c48.138,0,87.305-39.165,87.305-87.305V196.772
+                                    C402.532,148.632,363.367,109.468,315.227,109.468L315.227,109.468z M373.05,315.228c0,31.934-25.888,57.822-57.822,57.822H196.773
+                                    c-31.934,0-57.822-25.888-57.822-57.822V196.773c0-31.934,25.888-57.823,57.822-57.823h118.455
+                                    c31.934,0,57.822,25.89,57.822,57.823V315.228z"/>
+                                <path style="fill:#FFFFFF;" d="M256,180.202c-41.794,0-75.798,34.004-75.798,75.798c0,41.791,34.004,75.795,75.798,75.795
+                                    s75.795-34.001,75.795-75.795S297.794,180.202,256,180.202L256,180.202z M256,302.313c-25.579,0-46.316-20.733-46.316-46.313
+                                    s20.737-46.316,46.316-46.316s46.313,20.735,46.313,46.316C302.313,281.579,281.579,302.313,256,302.313L256,302.313z"/>
+                            </g>
+                            <g>
+                                <path style="fill:#D1D1D1;" d="M350.103,180.774c0,10.03-8.132,18.163-18.163,18.163c-10.03,0-18.163-8.133-18.163-18.163
+                                    c0-10.031,8.133-18.163,18.163-18.163C341.973,162.611,350.103,170.741,350.103,180.774L350.103,180.774z"/>                               
+                            </g>
+                            </svg>
+                    <a href="https://www.tiktok.com/@innovacionsola" class="w-11" target="_blank">
+                        <img class="w-19" src="https://i.ibb.co/Mg2dffg/tiktok.png" alt="">
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCIo9ylyyiF3WKjp2UjDAZAw" class="w-9" target="_blank">
+                        <?xml version="1.0" ?>
+
+                        <svg width="45px" height="45px" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+                        
+                        <g fill="none" fill-rule="evenodd">
+                        
+                        <path d="M36,72 L36,72 C55.882251,72 72,55.882251 72,36 L72,36 C72,16.117749 55.882251,-3.65231026e-15 36,0 L36,0 C16.117749,3.65231026e-15 -2.4348735e-15,16.117749 0,36 L0,36 C2.4348735e-15,55.882251 16.117749,72 36,72 Z" fill="#FF0002"/>
+                        
+                        <path d="M31.044,42.269916 L31.0425,28.6877416 L44.0115,35.5022437 L31.044,42.269916 Z M59.52,26.3341627 C59.52,26.3341627 59.0505,23.003199 57.612,21.5363665 C55.7865,19.610299 53.7405,19.6012352 52.803,19.4894477 C46.086,19 36.0105,19 36.0105,19 L35.9895,19 C35.9895,19 25.914,19 19.197,19.4894477 C18.258,19.6012352 16.2135,19.610299 14.3865,21.5363665 C12.948,23.003199 12.48,26.3341627 12.48,26.3341627 C12.48,26.3341627 12,30.2467232 12,34.1577731 L12,37.8256098 C12,41.7381703 12.48,45.6492202 12.48,45.6492202 C12.48,45.6492202 12.948,48.9801839 14.3865,50.4470165 C16.2135,52.3730839 18.612,52.3126583 19.68,52.5135736 C23.52,52.8851913 36,53 36,53 C36,53 46.086,52.9848936 52.803,52.4954459 C53.7405,52.3821478 55.7865,52.3730839 57.612,50.4470165 C59.0505,48.9801839 59.52,45.6492202 59.52,45.6492202 C59.52,45.6492202 60,41.7381703 60,37.8256098 L60,34.1577731 C60,30.2467232 59.52,26.3341627 59.52,26.3341627 L59.52,26.3341627 Z" fill="#FFF"/>
+                        </g>          
+                        </svg>
+                    </a>
+                </div>
+                <div>
+                    <p class="mt-6 text-center text-sm">
+                        <a href="https://innovacionsolarperu.com" target="_blank" class="font-semibold leading-5 text-yellow-500 hover:text-indigo-500">
+                            © 2024 Innovación Solar Perú
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordField = document.getElementById('id_password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+
+            this.querySelector('svg').classList.toggle('text-gray-400');
+            this.querySelector('svg').classList.toggle('text-indigo-600');
+        });
+    });
+</script>
+{% endblock script %}

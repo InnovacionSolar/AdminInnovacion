@@ -1,0 +1,100 @@
+        <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+            <h2 class="text-lg font-semibold mb-2 flex items-center gap-4 mb-5"><i class='bx bx-link' ></i> Enlaces Rápidos</h2>
+
+            <ul class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
+                <li class="flex items-center">
+                    <i class="bx bx-task text-xl text-gray-600"></i>
+                    <a href="{% url "Asistencia" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Marcar Asistencia
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <i class="bx bx-task text-xl text-gray-600"></i>
+                    <a href="{% url "Salida" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Marcar Salida
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <i class="bx bx-user-circle text-xl text-gray-600"></i>
+                    <a href="{% url "Profile" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Mi perfil
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <i class="bx bx-bar-chart text-xl text-gray-600"></i>
+                    <a href="{% url "Performance_Home" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Mi rendimiento
+                    </a>
+                </li>
+
+                <li class="flex items-center">
+                    <i class="bx bx-calendar text-xl"></i>
+                    <a href="{% url "Horario_Home" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Mi Horario
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <i class='bx bx-world text-xl text-gray-600' ></i>
+                    <a href="//innovacionsolarperu.com" target="_blank" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Página oficial
+                    </a>
+                </li>
+
+                <li class="flex items-center">
+                    <i class='bx bx-note text-xl text-gray-600' ></i>
+                    <a href="{% url "Notas_Home" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Notas Pendientes
+                    </a>
+                </li>
+                {% if user.groups.all.0.name == 'InventarioPermisos' %}
+                <li class="flex items-center">
+                    <i class='bx bx-box text-lg' ></i>
+                    <a href="{% url "Inventario_UserHome" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Mi Inventario
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <i class='bx bx-file text-xl' ></i>
+                    <a href="{% url "Informes_UserHome" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Mis Informes
+                    </a>
+                </li>
+                {% else %}
+                {% endif %}
+                {% if user.groups.all.0.name == 'InformePermisos' %}
+                <li class="flex items-center">
+                    <i class='bx bx-file text-xl' ></i>
+                    <a href="{% url "Informes_UserHome" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Mis Informes
+                    </a>
+                </li>
+
+                <li class="flex items-center">
+                    <i class='bx bx-list-ol text-xl' ></i>
+                    <a href="{% url "gestion_Userview" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Registro de Asistencias
+                    </a>
+                </li>
+
+                <li class="flex items-center">
+                    <i class='bx bx-trending-up text-xl' ></i>
+                    <a href="{% url "Rendimiento_UserHome" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Redimiento General
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <i class='bx bx-label text-xl'></i>
+                    <a href="{% url "Recursos_UserHome" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Recursos 
+                    </a>
+                </li>
+                {% else %}
+                <li class="flex items-center">
+                    <i class='bx bx-label text-xl'></i>
+                    <a href="{% url "Recursos_Usuarios" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Recursos 
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>

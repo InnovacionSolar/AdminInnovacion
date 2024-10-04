@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+{% load humanizelib %}
+<style>
+.dataTables_length select {
+    background-position: 30px center; 
+    color: #4a5568; 
+    cursor: pointer; 
+    margin-bottom: 20px;
+}
+</style>
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+        {% include "Dashboard/Cargos/Form.html" %}
+        <div class="p-4">
+            <div class="flex justify-between mb-5 items-center">
+                <p class="font-light">
+                    Dashboard / <a href="#" class="font-semibold"> {{url}}</a>
+                </p>
+                <div class="border border-gray-300 rounded-lg ">
+                    <p class="font-light flex items-center gap-1 text-gray-600 px-2 py-1.5 ">
+                        <i class='bx bx-calendar text-xl mr-2'></i>
+                        {{hora}}
+                    </p>
+                </div>
+            </div>
+            <table id="miTabla">
+                <thead class="text-gray-500 font-thin text-sm">
+                    <tr>
+                        <th>
+                            Nombre del cargo
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody >
+                    {% for cargo in cargos %}
+                    <tr class="hover:bg-gray-300 hover:text-gray-800 text-gray-800 max-sm:text-xs  2xl:text-normal ">
+                            <td>{{cargo.nombre}}</td>
+                            <td class="flex gap-5 text-sm font-thin">
+                                <a href="{% url "Cargos_edit" cargo.id %}" class="text-gray-700 duration-300 hover:text-blue-500">
+                                    Editar
+                                </a>
+                                <a href="#" class="text-gray-700 duration-300 hover:text-red-500">
+                                    Eliminar
+                                </a>
+                            </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="flex gap-4">
+                <button id="OpenFormCargo" class="align-middle select-none flex items-center gap-3 mt-3 font-sans font-bold text-center uppercase transition-all text-xs py-1 px-3 rounded-lg border border-gray-900 text-gray-900 hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85]" type="button" style="position: relative; overflow: hidden;">
+                    <i class='bx bx-purchase-tag-alt text-xl'></i>
+                    Agregar cargo
+                </button>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}
+{% block script %}
+    <script>
+    $(document).ready( function () {
+        $('#miTabla').DataTable({
+            responsive: true
+        });
+    });
+    document.getElementById('OpenFormCargo').addEventListener('click', function(){
+            const Form2 = document.getElementById('FormCargo')
+            Form2.classList.remove('hidden');
+    })
+
+    document.getElementById('CloseFormCargo').addEventListener('click', function(){
+            const Form2 = document.getElementById('FormCargo')
+            Form2.classList.add('hidden');
+    })
+
+    </script>
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: '{{ message.tags }}',
+            title: '{{ message.tags }}',
+            text: '{{ message }}',
+        });
+    </script>
+    {% endfor %}
+{% endif %}
+{% endblock script %}

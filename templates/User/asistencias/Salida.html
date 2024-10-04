@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block navegacion %}
+    {% include "src/components/navbar.html" %}
+    {% include "User/components/aside.html" %}
+{% endblock navegacion %}
+
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard">
+    <div>
+        <div class="pb-5 mb-2 flex justify-between max-sm:flex-wrap">
+            <div class="flex items-center gap-5 max-sm:flex-wrap">
+                {% if request.user.empleado.picture %}
+                    <img src="{{ request.user.empleado.picture.url }}" alt="picture" class="img-actividades">
+                    <style>
+                        .img-actividades {
+                            border-radius: 9999px; /* Equivalente a rounded-full */
+                            width: 7rem; /* Equivalente a w-28 (28/4 = 7) */
+                            height: 7rem; /* Mismo tamaño para mantener la relación de aspecto cuadrada */
+                        }
+                    </style>
+                {% else %}
+                    <img src="{% static 'noimage.png' %}" alt="picture" class="rounded-full w-28">
+                {% endif %}
+                <div class="flex flex-col">
+                    <h1 class="font-bold">{{ request.user.empleado.nombre }} {{ request.user.empleado.apellido }}</h1>
+                    <p class="font-light">{{ request.user.empleado.cargo }}</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="grid gap-1.5 max-sm:mt-3 max-sm:pt-3">
+                    <label class="font-medium text-sm" for="date">Date</label>
+                    <input disabled
+                        class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        id="date"
+                        value="{{ fecha_actual }}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for asistencia in asistencias %}
+        <div class="shadow-xl bg-white py-5 mb-5 px-5 rounded-lg border border-gray-300">
+            <form method="POST" id="FormularioAsistencia" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label class="text-gray-700">Marcar Hora de Salida:</label>
+                {{ formupdate.hora_salida }}
+                <button name="asistencia_actualizacion" type="submit" class="bg-gray-900 mt-5 w-full hover:bg-black text-white font-bold py-2 px-4 rounded">
+                    Marcar Salida    
+                </button>
+            </form>
+        </div>
+    {% endfor %} <!-- Make sure to close the for loop -->
+</section>
+{% endblock content %}
+
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: '{{ message.tags }}',
+            title: 'Listo',
+            text: '{{ message }}',
+            confirmButtonColor: '#63E163',
+        });
+    </script>
+    {% endfor %}
+{% endif %}

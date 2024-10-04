@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard">
+    <h1 class="text-lg font-semibold mb-4">Reporte de actividades del usuario {{ asistencias.empleado.nombre }} {{ asistencias.empleado.apellido }}</h1>
+    
+    <!-- Formulario para actualizar el reporte -->
+    <form method="POST" class="bg-white shadow-md flex flex-col justify-start itemst rounded-lg overflow-hidden   p-6">
+        {% csrf_token %}
+        <div class="py-2 flex flex-col justify-start gap-2">
+            {{asistenciaForm}}
+        </div>
+        <div class="flex justify-center mt-2">
+            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-4">
+                Actualizar
+            </button>
+            <a href="{% url 'gestion_view' %}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Volver
+            </a>
+        </div>
+    </form>
+    
+    <!-- Evidencia del reporte -->
+    <div class="p-5">
+        <p class="text-xl">Evidencia del reporte</p>
+        {% if asistencias.evidencia %}
+            <img class="w-1/2 pt-5 mx-auto" src="{{ asistencias.evidencia.url }}" alt="evidencia">
+        {% else %}
+            <p class="text-center text-gray-500">
+                Se borraron las evidencias (Se guardan por 7 días)
+            </p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+{% block script %}
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '{{ message }}',
+        });
+    </script>
+    {% endfor %}
+{% endif %}
+{% endblock script %}
+

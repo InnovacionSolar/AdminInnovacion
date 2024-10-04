@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load humanizelib %}
+{% load static %}
+{% block navegacion %}
+    {% include "src/components/navbar.html" %}
+    {% include "User/components/aside.html" %}
+{% endblock navegacion %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    <div class="grid grid-cols-3 gap-4">
+        {% for horario in horarios %}
+        <div class="bg-blue-100 border border-gray-300 hover:scale-105 transitions-all duration-300 shadow-md rounded-lg p-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">{{ horario.dia_semana }}</h2>
+                <span class="text-gray-600 text-sm">{{ horario.fecha }}</span>
+            </div>
+            <div>
+                <p class="text-sm text-gray-700">Horario laboral:</p>
+                <p class="text-lg font-semibold">{{ horario.hora_inicio }} - {{ horario.hora_salida }}</p>
+            </div>
+            <div class="mt-4">
+                <p class="text-xs text-gray-500">
+                    Recordar marcar asistencia 10 minutos antes de la hora de inicio.
+                    en la seccion de <a href="{% url "Asistencia" %}" class="font-bold text-black " >asistencia</a>
+                </p>
+            </div>
+            <div class="flex items-center  mt-5 gap-5">
+                {% if request.user.empleado.picture %}
+                    <img class="w-10 rounded-full" alt="{{request.user.empleado.nombre}}" src="{{request.user.empleado.picture.url}}{{AZURE_SAS_TOKEN}}">
+                {% else %}
+                    <img class="w-10 rounded-full" alt="{{request.user.empleado.nombre}}" src="{% static "noimage.png" %}">
+                {% endif %}
+                <div class="text-sm text-gray-700">
+                    <p class="text-black font-semibold">
+                        {{ request.user.empleado.nombre }} {{ request.user.empleado.apellido}}
+                    </p>
+                    <p>
+                        {{request.user.empleado.cargo}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}
+{% block script %}
+{% endblock script %}

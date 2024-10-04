@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+    <section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+        <div class="p-5">
+            {% for product in products %}
+                <div class="flex bg-white rounded-lg ">
+                    <div class="w-1/2">
+                        <img src="{{product.picture.url}}" class="w-5/6" alt="{{product.nombre}}">
+                    </div>
+                    <div class="w-1/2 mt-2 flex flex-col gap-2">
+                        <p class="text-lg font-semibold">Nombre del producto:</p>
+                        <h1> 
+                            {{product.nombre}}
+                        </h1>
+                        <p>
+                            <span class="text-lg font-semibold">Stock</span>: {{product.stock}} unidades
+                        </p>
+                        <p>
+                            <span class="text-lg font-semibold">Precio</span>: S/{{product.precio}}
+                        </p>
+                        <p>
+                            <span class="text-lg font-semibold">Categoria</span>: {{product.categoria.nombre}}
+                        </p>
+                        <div class="flex gap-2 mt-4">
+                            {% if tiene_permisos_inventario %}
+                                <a href="{% url "InventarioEditView" product.id %}" type="button" class="text-white flex items-center gap-2 bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-6 py-2.5 text-center me-2 mb-2">
+                                    <i class='bx bx-edit-alt'></i>
+                                    Editar
+                                </a>
+                                <button type="button" class="text-white flex items-center gap-2 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-6 py-2.5 text-center me-2 mb-2">
+                                    <i class='bx bx-trash-alt'></i>
+                                    Eliminar
+                                </button>
+                            {% else %}
+                                <p class="text-gray-500 text-sm">No tienes permisos para editar o eliminar este producto.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </section>
+{% endblock content %}

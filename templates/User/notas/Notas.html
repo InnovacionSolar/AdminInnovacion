@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block navegacion %}
+    {% include "src/components/navbar.html" %}
+    {% include "User/components/aside.html" %}
+{% endblock navegacion %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard">
+    <div class="mt-1 flex justify-center">
+        <button class="button-spacing bg-green-500 hover:bg-black text-white font-bold py-2 px-4 rounded"
+                onclick="toggleIframe('iframeAreaDigital', this)">
+            ÁREA DIGITAL
+        </button>
+        <button class="button-spacing bg-green-500 hover:bg-black text-white font-bold py-2 px-4 rounded"
+                onclick="toggleIframe('iframeRRHH', this)">
+            RRHH Y ORGANIZACIÓN
+        </button>
+        <button class="button-spacing bg-green-500 hover:bg-black text-white font-bold py-2 px-4 rounded"
+                onclick="toggleIframe('iframeComercial', this)">
+            ÁREA COMERCIAL Y VENTAS
+        </button>
+        <button class="button-spacing bg-green-500 hover:bg-black text-white font-bold py-2 px-4 rounded"
+                onclick="toggleIframe('iframeTecnica', this)">
+            ÁREA TÉCNICA Y OPERACIONES
+        </button>
+    </div>
+
+    <div id="iframeAreaDigital" class="mt-4" style="display: none;">
+        <iframe src="https://docs.google.com/document/d/1WJErZI2DkWs0f0yKYdwGZ_fAUGbmtumsEl9Drm8Itd0/edit?usp=sharing"
+                style="width:100%; height:94%;" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div id="iframeRRHH" class="mt-4" style="display: none;">
+        <iframe src="https://docs.google.com/document/d/1fd7XYK6WWMiDQQkaZznIt2gTE7z4n-oEORGbaJxDC58/edit?usp=sharing"
+                style="width:100%; height:94%;" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div id="iframeComercial" class="mt-4" style="display: none;">
+        <iframe src="https://docs.google.com/document/d/1IFn2YtvGGFpfdJXJKd027kaaFJExwiy1AbUAGzNiajc/edit?usp=sharing"
+                style="width:100%; height:94%;" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div id="iframeTecnica" class="mt-4" style="display: none;">
+        <iframe src="https://docs.google.com/document/d/1mby6nIy6MRMEfEsOj962Ot5HAFE67nDL3dr8y-AlHbg/edit?usp=sharing"
+                style="width:100%; height:94%;" frameborder="0" allowfullscreen></iframe>
+    </div>
+</section>
+<style>
+    .button-spacing {
+        margin: 0 20px; 
+    }
+    .active {
+        background-color: black;
+    }
+</style>
+<script>
+    function toggleIframe(iframeId, button) {
+        var iframes = document.querySelectorAll('section > div[id^="iframe"]');
+        var buttons = document.querySelectorAll('.button-spacing');
+        
+        iframes.forEach(function(iframe) {
+            if (iframe.id === iframeId) {
+                iframe.style.display = iframe.style.display === "none" ? "block" : "none";
+            } else {
+                iframe.style.display = "none";
+            }
+        });
+
+        buttons.forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+
+        button.classList.add('active');
+    }
+</script>
+{% endblock content %}
+{% block script %}
+{% endblock script %}

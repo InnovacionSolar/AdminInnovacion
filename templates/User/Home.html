@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block navegacion %}
+            {% include "src/components/navbar.html" %}
+            {% include "User/components/aside.html" %}
+{% endblock navegacion %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    <div class="p-3">
+            <div class="bg-gradient-to-r from-green-50 to-green-200 rounded-xl mb-6">
+            <div class="p-7" style="background-image: url('{% static 'crystal2.png' %}'); background-size: cover; background-position: center;">
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Bienvenido {{request.user.username|capfirst}} 👋
+                    </h1>
+                <p class="text-gray-600">
+                    Bienvenido a tu panel de control, aquí podrás ver tus estadísticas, tus últimas actividades y mucho más.
+                </p>
+            </div>
+        </div>
+        {% include "User/components/LinksFast.html" %}
+        
+        {% if notificacion %}
+        <section id="notificacion-section" class="py-4">
+            <div class="bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                <div class="py-4 text-left px-6">
+                    {% if notificacion.imagen %}
+                        <img src="{{ notificacion.imagen.url }}" class="rounded-lg mb-4" alt="Imagen Notificación" style="width: 1000px; height: auto; display: block; margin: 0 auto;">
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</section>
+<style>
+    /* Estilos para el modal en dispositivos móviles */
+    @media (max-width: 768px) {
+        .modal-container {
+            max-width: 80%;
+        }
+    }
+</style>
+{% endblock content %}

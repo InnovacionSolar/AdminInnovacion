@@ -1,0 +1,63 @@
+{% load static %}
+<div>
+    <nav class="p-1 bg-white  flex justify-between">
+        <div class="flex items-center gap-7 p-2">
+            <button id='OpenSide' class="w-10 text-gray-800 ">
+                <i class='bx bx-x text-3xl'></i>
+            </button>
+            <div class="flex items-center text-gray-100  gap-3">
+                <img class="w-10" src="https://i.ibb.co/k2WQrwx/logo2.webp" alt="logoinnova">
+                <h1 class="font-bold text-xl max-sm:hidden text-gray-800">InnovacionAdmin</h1>
+            </div>
+        </div>
+        <div class="flex items-center gap-5 p-2">
+            <div x-data="{ open: false }" @keydown.escape="open = false" class="relative inline-block text-left">
+                    <a href="#" @click="open = !open">
+                        {% if request.user.empleado.picture %}
+                            <img src="{{ request.user.empleado.picture.url }}" alt="avatar_user" class="img">
+                            <style>
+                                .img {
+                                width: 2.5rem; /* Equivalente a w-10 (10/4 = 2.5) */
+                                height: 2.5rem; /* Mismo tamaño para mantener la relación de aspecto cuadrada */
+                                border-radius: 9999px; /* Equivalente a rounded-full */
+                                }
+                            </style>
+                        {% else %}
+                            <img class="w-10 rounded-full" src="https://i.ibb.co/k2WQrwx/logo2.webp" alt="avatar_user">
+                        {% endif %}
+                    </a>
+
+                    <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="pr-10 origin-top-right absolute right-0 mt-2 rounded-md z-40 shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <!-- Menu de usuario -->
+                        <div class="py-1 z-40" role="none">
+                            {% if user.empleado %}
+                                <a href="{% url "Profile" %}" class="text-gray-700 flex gap-2 items-center px-4 py-2 z-40" role="menuitem" tabindex="-1" id="menu-item-0">
+                                    <i class='bx bx-user text-lg'></i>                                
+                                    Perfil
+                                </a>
+                                <a href="{% url "Performance_Home" %}" class="text-gray-700 flex gap-2 items-center px-4 py-2 z-40" role="menuitem" tabindex="-1" id="menu-item-0">
+                                    <i class='bx bx-line-chart text-lg'></i>                            
+                                    Rendimiento
+                                </a>
+                                <a href="{% url "Recursos_Usuarios" %}" class="text-gray-700 flex gap-2 items-center px-4 py-2 z-40" role="menuitem" tabindex="-1" id="menu-item-0">
+                                    <i class='bx bx-folder-open text-lg'></i>                             
+                                    Recursos
+                                </a>
+
+                            {% else %}
+                                
+                            {% endif %}
+                            <a href="{% url "Profile" %}" class="text-gray-700  z-40 flex gap-2 items-center px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-1">
+                                <i class='bx bx-cog text-lg'></i>
+                                Configuracion
+                            </a>
+                            <a href="{% url "logout" %}" class="text-gray-700 z-40  flex gap-2 items-center px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-2">
+                                <i class='bx bx-log-out text-lg'></i>
+                                Cerrar sesion
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </nav>
+</div>

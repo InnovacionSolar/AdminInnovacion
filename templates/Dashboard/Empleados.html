@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block estilos %}
+<!-- Implementar el tag humanize -->
+{% load humanizelib %}
+<style>
+.dataTables_length select {
+    background-position: 30px center; 
+    color: #4a5568; 
+    cursor: pointer; 
+    margin-bottom: 20px;
+}
+
+</style>
+{% endblock estilos %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-100 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    <div class="p-3">
+        <div class="flex justify-between">
+            <p class="font-light mb-5">
+                Dashboard / <a href="#" class="font-semibold"> {{url}}</a>
+            </p>
+            <p class="font-light">
+                {{hora}}
+            </p>
+        </div>
+        <div class="flex gap-5">
+            <div class="flex items-center justify-center bg-white shadow-md rounded-lg p-4 mb-10 w-32">
+                <div class="text-center">
+                    <p class="text-gray-500 text-xs">N° de empleados activos</p>
+                    <p class="text-gray-800 text-xl font-bold">{{cantidad_empleados}}</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-center bg-white shadow-md rounded-lg p-4 mb-10 w-32">
+                <div class="text-center">
+                    <p class="text-gray-500 text-xs">N° de empleados inactivos
+                    </p>
+                    <p class="text-gray-800 text-xl font-bold">{{cantidad_empleados_inactivos}}</p>
+                </div>
+            </div>
+            
+
+        </div>
+        
+    <table id="miTabla">
+        <thead class="text-gray-500 font-thin text-sm">
+            <tr>
+                <th>Nombres</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Ingreso</th>
+                <th>Cargo</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody >
+            {% for empleado in empleados %}
+            <tr class="hover:bg-gray-300 hover:text-gray-800 text-gray-800 max-sm:text-xs  2xl:text-normal ">
+                    <td>{{empleado.nombre}} {{empleado.apellido}}</td>
+                    <td>{{empleado.correo}}</td>
+                    <td>{{empleado.telefono}}</td>
+                    <td>{{empleado.fecha_inicio|naturalday}}</td>
+                    <td>{{empleado.cargo}}</td>
+                    <td>
+                        {% if empleado.active == 1 %}
+                                <div class="flex items-center">
+                                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+                                    <span class="text-gray-700 text-sm">Activo</span>
+                                </div>
+                        {% else %}
+                                <div class="flex items-center">
+                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+                                    <span class="text-gray-700 text-sm">Inactivo</span>
+                                </div>
+                        {% endif %}
+                    </td>
+                    <td class="flex gap-5 text-sm font-thin">
+                        <a href="{% url 'editar_empleado' empleado.id %}" class="text-gray-700 duration-300 hover:text-blue-500">
+                            Editar
+                        </a>
+                        <a href="{% url 'eliminar_empleado'  empleado.id %}" class="text-gray-700 duration-300 hover:text-red-500">
+                            Eliminar
+                        </a>
+                    </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="flex gap-4">
+        <a href="{% url "nuevo_empleado" %}" class="align-middle select-none flex items-center gap-3 mt-3 font-sans font-bold text-center uppercase transition-all text-xs py-1 px-3 rounded-lg border border-gray-900 text-gray-900 hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85]" type="button" style="position: relative; overflow: hidden;">
+        <i class='bx bx-user-plus text-2xl'></i>
+        Agregar empleado
+        </a>
+        <a href="{% url "download_report_empleados" %}" class="align-middle select-none flex items-center gap-3 mt-3 font-sans font-bold text-center uppercase transition-all text-xs py-1 px-3 rounded-lg border border-gray-900 text-gray-900 hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85]" type="button" style="position: relative; overflow: hidden;">
+            <i class='bx bx-download text-2xl'></i>
+            Descargar reporte
+        </a>
+    </div>
+
+    </div>
+</section>
+{% endblock content %}
+{% block script %}
+    <script>
+    $(document).ready( function () {
+        $('#miTabla').DataTable({
+            responsive: true
+        });
+    });
+
+    </script>
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '{{ message }}',
+        });
+    </script>
+    {% endfor %}
+{% endif %}
+{% endblock script %}

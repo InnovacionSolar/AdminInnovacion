@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard">
+    <div class="p-3">
+        <div class="bg-gradient-to-r from-green-50 to-green-200 rounded-xl mb-6">
+            <div class="p-7">
+                <h1 class="mb-2 text-3xl font-bold text-gray-800">Crear Notificación</h1>
+                <form action="{% url 'crear_notificacion' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div>
+                        <img id="imagePreview" class="mt-2 hidden" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+                    <div class="">
+                        <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Crear</button>
+                        <a href="{% url 'Home' %}" class="bg-blue-500 hover:bg-blue-700 text-white py-2.5 px-4 rounded">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.querySelector('input[type="file"]');
+        const imagePreview = document.getElementById('imagePreview');
+
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.src = '';
+                imagePreview.classList.add('hidden');
+            }
+        });
+    });
+</script>
+{% endblock content %}

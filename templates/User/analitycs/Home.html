@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% block navegacion %}
+            {% include "src/components/navbar.html" %}
+            {% include "User/components/aside.html" %}
+{% endblock navegacion %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    <div class="p-2">
+        <h1 class="text-2xl mb-5 font-semibold">
+            Sección de rendimiento 
+        </h1>
+        <figure class="highcharts-figure3">
+            <div id="container3"></div>
+        </figure>
+        <h1 class="text-2xl mb-5 mt-5 font-semibold">
+            Reporte de tus actividades y asistencias
+        </h1>
+        <table id="PerfomanceTable">
+            <thead class="text-gray-500 font-thin text-sm">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Nombres</th>
+                    <th>Entrada</th>
+                    <th>Actividades de valor</th>
+                    <th>Logros</th>
+                    <th>Salida</th>
+                </tr>
+            </thead>
+            <tbody >
+                {% for asistencia in asistencias %}
+                <tr ondblclick="EventDetail('{{ asistencia.get_absolute_url }}')"  class="hover:bg-gray-300 hover:text-gray-800 text-gray-800 max-sm:text-xs  2xl:text-normal ">
+                        <td>{{asistencia.fecha}}</td>
+                        <td>{{asistencia.empleado.nombre}} {{asistencia.empleado.apellido}}</td>
+                        <td>{{asistencia.hora_marcada}}</td>
+                        <td>{{asistencia.actividades_valor|truncatechars:60}}</td>
+                        <td>{{asistencia.logros|truncatechars:50}}</td>
+                        <td>{{asistencia.hora_salida}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock content %}
+{% block script %}
+<style>
+    .dataTables_length select {
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none; 
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="1" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 26 12"><path fill-rule="evenodd" d="M1.5 6.5a.5.5 0 0 1 .7 0L8 12.293 13.8 6.5a.5.5 0 0 1 .7.7l-6 6a.5.5 0 0 1-.7 0l-6-6a.5.5 0 0 1 0-.7z"/></svg>') no-repeat right center;
+    background-size: 12px 12px; /* Tamaño de la flecha */
+}
+</style>
+<script>
+$(document).ready( function () {
+    $('#PerfomanceTable').DataTable({
+        responsive: true,
+        language: {
+            lengthMenu: 'Mostrar _MENU_ registros por página',
+            search: 'Buscar:', 
+            info: 'Mostrando _START_ a _END_ de _TOTAL_ registros',
+            paginate: {
+                first: 'Primero',
+                last: 'Último',
+                next: 'Siguiente',
+                previous: 'Anterior'
+            }
+        },
+        order: [[0, 'desc']]
+    });
+});
+</script>
+<script>
+    function EventDetail(url){
+        window.location.href = url;
+    }
+</script>
+<script>
+    Highcharts.chart('container3', {
+    chart: {
+        type: 'line',
+        marginTop: 80,
+    },
+    title: {
+        text: '<br>Rendimiento de Actividades de la Semana',
+        useHTML: true,
+    },
+    xAxis: {
+        categories: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+    },
+    yAxis: {
+        title: {
+            text: 'Calificación de Actividades'
+        },
+        max: 20  // Establecer el valor máximo en el eje Y
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: true
+        }
+    },
+    series: [{
+        name: 'Calificación',
+        data: {{ puntuaciones_semanales|safe }},
+        color: 'green'
+    }]
+});
+</script>
+{% endblock script %}

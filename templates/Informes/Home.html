@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block navegacion %}
+    {% if request.user.is_superuser %}
+        {% include "src/components/navbar.html" %}
+        {% include "src/components/aside.html" %}
+    {% else %}
+        {% include "src/components/navbar.html" %}
+        {% include "User/components/aside.html" %}
+    {% endif %}
+{% endblock navegacion %}
+{% block content %}
+<!-- Informes Section -->
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    <div class="p-2">
+        <h1 class="font-bold text-xl">
+            Control de Informes
+        </h1>
+        <div class="mt-2 flex gap-5  max-sm:flex-wrap">
+        <form class="w-2/3 max-sm:w-full" method="GET">   
+                <label for="searchinfo" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+                    <input type="search" name="searchinfo" id="searchinfo" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Buscar Informe..">
+                    <button type="submit" class="text-white absolute end-2.5 bottom-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
+                </div>
+            </form>
+
+            <div class="w-1/3 max-sm:w-full">
+            <select id="categorias" onchange="window.location.href=this.value;" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3">
+                <option selected>
+                    Filtrar por..
+                </option>
+                <option value="../">
+                    Eliminar Filtros
+                </option>
+                {% if categorias %}
+                    {% for categoria in categorias %}
+                        <option value="{% url 'Informes_categoria' categoria.id %}">
+                            {{ categoria.nombre }}
+                        </option>
+                    {% endfor %}
+                {% else %}
+                    <option value="nocategoria">
+                        No hay categorías disponibles
+                    </option>
+                {% endif %}
+            </select>
+            </div>
+        </div>
+        <div class="p-2 flex gap-2">
+            <button id="OpenFormCategoria" class="bg-blue-700 gap-2 w-max  flex items-center hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-white dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <i class='bx bxs-file-plus' ></i>
+                Subir Informe
+            </button>
+            <button id="OpenFormCategoria2" class="bg-blue-700 gap-2 w-max  flex items-center hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-white dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <i class='bx bxs-category' ></i>
+                Crear Categoría
+            </button>
+        </div>
+        {% include "Informes/Form.html" %}
+        {% include "Informes/Form2.html" %}
+        <div class="p-2">
+            {% if informes %}
+            <p>
+                Hemos encontrado <span class="text-blue-700 font-bold">
+                    {{informes|length}}
+                </span> informes
+            </p>
+            {% else %}
+            
+            {% endif %}
+            <div class="mt-5 flex flex-col gap-3">
+                {% if informes %}
+                    {% for informe in informes %}
+                        <a href="{{informe.documento.url}}" download class="p-8 rounded-xl max-sm:justify-normal max-sm:flex-wrap shadow-xl bg-white items-center flex justify-between border hover:border-green-600 hover:shadow-lg duration-500 transition-all ">
+                            <div>
+                                <div class="flex max-sm:flex-wrap ">
+                                    <h1 class="font-bold">
+                                        {{informe.documento}}
+                                    </h1>
+                                    <div class="flex gap-2 ml-5 max-sm:ml-0 py-2  items-center">
+                                        <p class="bg-green-500 px-3 py-0.5 rounded-lg text-gray-100 text-xs">
+                                            {{informe.categoria}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 text-gray-700">
+                                    <p>
+                                        {{informe.resumen}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-gray-600  w-32 max-sm:py-2 ">
+                                    {{informe.fecha_subida}}
+                                </p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <h1 class="font-semibold text-lg">
+                        No hay informes disponibles
+                    </h1>
+                {% endif %}
+            </div>
+            {% include "src/components/paginator.html" %}
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block script %}
+<script>
+    document.getElementById('OpenFormCategoria').addEventListener('click', function(){
+        const Form = document.getElementById('FormCategoria')
+        Form.classList.remove('hidden');
+    })
+    document.getElementById('CloseFormCategoria').addEventListener('click', function(){
+        const Form = document.getElementById('FormCategoria')
+        Form.classList.add('hidden');
+    })
+    document.getElementById('OpenFormCategoria2').addEventListener('click', function(){
+        const Form = document.getElementById('FormCategoria2')
+        Form.classList.remove('hidden');
+    })
+    document.getElementById('CloseFormCategoria2').addEventListener('click', function(){
+        const Form = document.getElementById('FormCategoria2')
+        Form.classList.add('hidden');
+    })
+</script>
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: '{{ message.tags }}',
+            title: '{{ message.tags }}',
+            text: '{{ message }}',
+        });
+    </script>
+    {% endfor %}
+{% endif %}
+{% endblock script %}

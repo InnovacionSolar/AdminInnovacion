@@ -1,0 +1,150 @@
+<!-- responsabilidades.html -->
+<style>
+    /* Media query for screens smaller than 640px (typically mobile devices) */
+    @media (max-width: 600px) {
+        .responsabilidad-content {
+            display: none; /* Ocultar el contenido de cada div por defecto */
+        }
+        .responsabilidad-container {
+            flex-direction: column; /* Apilar los divs verticalmente */
+        }
+        .responsabilidad-item {
+            width: 100%; /* Asegurarse de que los divs ocupen todo el ancho disponible */
+        }
+    }
+</style>
+
+<div class="responsabilidad-container flex gap-4 mb-4">
+    <div class="responsabilidad-item flex-1 bg-gray-100 rounded-lg overflow-hidden">
+        <div class="px-4 py-3 bg-gray-100 text-center text-sm leading-4 text-gray-600 uppercase tracking-wider rounded-t-lg responsabilidad-title">
+            RRHH y Organización
+        </div>
+        <div class="p-4 bg-white responsabilidad-content">
+            <ul class="list-none pl-5">
+                <li>Reclutamiento</li>
+                <li>Selección</li>
+                <li>Formación</li>
+                <li>Gestión de Talento y Sucesión</li>
+                <li>Seguimiento y Control</li>
+                <li>Gestión de desempeño</li>
+                <li>Compensación y beneficios</li>
+            </ul>
+        </div>
+    </div>
+    <div class="responsabilidad-item flex-1 bg-gray-100 rounded-lg overflow-hidden">
+        <div class="px-4 py-3 bg-gray-100 text-center text-sm leading-4 text-gray-600 uppercase tracking-wider rounded-t-lg responsabilidad-title">
+            Área Digital
+        </div>
+        <div class="p-4 bg-white responsabilidad-content">
+            <ul class="list-none pl-5">
+                <li>Planificación de contenido</li>
+                <li>Producción de contenido</li>
+                <li>Actividades de Interacción Diaria - Normas</li>
+                <li>Gestión de redes Sociales</li>
+                <li>Publicidad en Redes</li>
+                <li>Desarrollo de software y web</li>
+            </ul>
+        </div>
+    </div>
+    <div class="responsabilidad-item flex-1 bg-gray-100 rounded-lg overflow-hidden">
+        <div class="px-4 py-3 bg-gray-100 text-center text-sm leading-4 text-gray-600 uppercase tracking-wider rounded-t-lg responsabilidad-title">
+            Área Técnica y Operaciones
+        </div>
+        <div class="p-4 bg-white responsabilidad-content">
+            <ul class="list-none pl-5">
+                <li>Instalación de Sistemas Solares</li>
+                <li>Teoría base de Funcionamiento de Sistemas Solares</li>
+                <li>Soporte al Cliente</li>
+                <li>Recomendación y Capacitación</li>
+                <li>Gestión y Supervisión de Inventarios</li>
+                <li>Reparación y Mantenimiento de Equipos</li>
+                <li>Envío de Requerimientos a Locales</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="responsabilidad-container flex gap-4">
+    <div class="responsabilidad-item flex-1 bg-gray-100 rounded-lg overflow-hidden">
+        <div class="px-4 py-3 bg-gray-100 text-center text-sm leading-4 text-gray-600 uppercase tracking-wider rounded-t-lg responsabilidad-title">
+            Área Comercial y Ventas
+        </div>
+        <div class="p-4 bg-white responsabilidad-content">
+            <ul class="list-none pl-5">
+                <li>Taller de Venta</li>
+                <li>Metodología de venta</li>
+                <li>Reconocimiento de equipos</li>
+                <li>Instalación básica</li>
+                <li>Captación de Nuevos Clientes</li>
+                <li>Atención Digital</li>
+            </ul>
+        </div>
+    </div>
+    <div class="responsabilidad-item flex-1 bg-gray-100 rounded-lg overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 bg-gray-100 text-sm leading-4 text-gray-600 uppercase tracking-wider rounded-t-lg responsabilidad-title">
+            <span class="text-center flex-1">Tienda</span>
+            <i id="toggle-icon" class='bx bx-chevron-down text-xl text-gray-600 cursor-pointer'></i>
+        </div>
+        <div class="p-4 bg-white responsabilidad-content">
+            <ul class="list-none pl-5">
+                <li>Replanteamiento presentación de las áreas de la tienda</li>
+                <li>Actualización de inventario</li>
+                <li>Reporte de stock diario</li>
+                <li>Busca de locales en la ciudad</li>
+                <li>Análisis general de la competencia e investigación de mercado</li>
+                <li>Habilitar cámaras y sistema de seguridad</li>
+                <li class="extra-items hidden">Plan de promociones en ferias</li>
+                <li class="extra-items hidden">Cierre de Caja al final del día</li>
+                <li class="extra-items hidden">Orden y limpieza de local</li>
+                <li class="extra-items hidden">Calendario stock</li>
+                <li class="extra-items hidden">Calendario capacitación técnica y ventas</li>
+                <li class="extra-items hidden">Calendario de carga de Luminaria</li>
+                <li class="extra-items hidden">Contacto con posibles plataformas de publicidad</li>
+                <li class="extra-items hidden">Contacto con clientes potenciales</li>
+                <li class="extra-items hidden">Promoción en campo</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const titles = document.querySelectorAll('.responsabilidad-title');
+        const contents = document.querySelectorAll('.responsabilidad-content');
+        const url = "{% url 'Notas_Home' %}";  // Django template tag to get the URL
+
+        titles.forEach(title => {
+            title.addEventListener('click', function() {
+                const content = title.nextElementSibling;
+                content.style.display = content.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+
+        contents.forEach(content => {
+            content.addEventListener('click', function() {
+                window.location.href = url;
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleIcon = document.getElementById('toggle-icon');
+        const extraItems = document.querySelectorAll('.extra-items');
+        const title = document.querySelector('.flex-1 span');
+
+        let expanded = false;
+
+        toggleIcon.addEventListener('click', function() {
+            expanded = !expanded;
+            if (expanded) {
+                extraItems.forEach(item => item.classList.remove('hidden'));
+                toggleIcon.classList.replace('bx-chevron-down', 'bx-chevron-up');
+            } else {
+                extraItems.forEach(item => item.classList.add('hidden'));
+                toggleIcon.classList.replace('bx-chevron-up', 'bx-chevron-down');
+                title.textContent = "Tienda";
+            }
+        });
+    });
+</script>

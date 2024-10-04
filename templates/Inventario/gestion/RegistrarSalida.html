@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block navegacion %}
+    {% if request.user.is_superuser %}
+        {% include "src/components/navbar.html" %}
+        {% include "src/components/aside.html" %}
+    {% else %}
+        {% include "src/components/navbar.html" %}
+        {% include "User/components/aside.html" %}
+    {% endif %}
+{% endblock navegacion %}
+
+{% block content %}
+    <section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard">
+        <h1 class="text-3xl text-gray-800 font-semibold mb-2 mb-4">Registro de Salida</h1>
+
+        <div class="w-full mb-8">
+            <div x-data="{ open: false }" @keydown.escape="open = false" class="relative w-1/2 inline-block text-left mb-8">
+                <a @click="open = !open" class="py-4 px-5 shadow-lg rounded-lg bg-white flex gap-3 items-center">
+                    {% if empresaselect %}
+                        <img src="{{empresaselect.logo.url}}{{AZURE_SAS_TOKEN}}" alt="{{empresaselect.nombre}}" class="w-8">
+                        {{empresaselect.nombre}}
+                    {% else %}
+                        Seleccionar sucursal
+                    {% endif %}
+                    <i class='bx bx-chevron-down text-xl'></i>
+                </a>
+                <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute w-full mt-2 rounded-md z-40 shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <div class="z-40" role="none">
+                        {% if empresas %}
+                            {% for empresa in empresas %}
+                                <a href="{% url 'Registrar_salida_view' %}?empresa_id={{ empresa.id }}" class="text-gray-700 hover:bg-gray-200 transition-all duration-300 z-40 flex gap-2 items-center px-4 py-2" role="menuitem" tabindex="-1">
+                                    <img src="{{empresa.logo.url}}{{AZURE_SAS_TOKEN}}" alt="{{empresa.nombre}}" class="w-8">
+                                    {{empresa.nombre}}
+                                    {% if empresaselect.id == empresa.id %}
+                                        <i class='bx bx-check-circle text-green-600'></i>
+                                    {% endif %}
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                        <button id="OpenFormCategoria3" class="text-gray-700 hover:bg-gray-200 transition-all duration-300 z-40 flex gap-2 items-center px-4 py-2" role="menuitem" tabindex="-1">
+                            <i class='bx bx-plus text-blue-700 ml-1.5 mr-2'></i>
+                            Agregar sucursal
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+                <form method="POST" class="flex flex-col gap-3">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="flex gap-3">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
+                        <a href="{% url 'Inventario_Home' %}" class="bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+        </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard">
+    {% include "Horarios/Form.html" %}
+    {% if user.is_superuser %}
+    <div class="flex gap-4 pl-3 mb-5">
+        <button onclick="window.location.href='{% url 'horario' %}?show_form=true'" id="OpenFormHorario" class="align-middle select-none flex items-center gap-3 mt-3 text-center uppercase transition-all text-sm py-1 px-3 rounded-lg border border-gray-400 focus:ring focus:ring-gray-300 active:opacity-85" type="button" style="position: relative; overflow: hidden;">
+            <i class='bx bx-purchase-tag-alt text-xl text-blue-900'></i>
+            Agregar Horario
+        </button>
+    </div>
+    {% endif %}
+    <div class="p-3">
+        <!-- Sección para mostrar horarios -->
+        <div class="grid grid-cols-3 gap-4">
+            {% for horario in horarios %}
+            <div class="bg-blue-100 border border-gray-300 hover:scale-105 transitions-all duration-300 shadow-md rounded-lg p-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold">{{ horario.dia_semana }}</h2>
+                    <span class="text-gray-600 text-sm">{{ horario.fecha }}</span>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-700">Horario laboral:</p>
+                    <p class="text-lg font-semibold">{{ horario.hora_inicio }} - {{ horario.hora_salida }}</p>
+                </div>
+                <div class="mt-4">
+                    <p class="text-sm text-gray-700">Empleado:</p>
+                    <p class="text-lg font-semibold">{{ horario.empleado.nombre }} {{ horario.empleado.apellido }}</p>
+                    <p>{{ horario.empleado.cargo }}</p>
+                    <!-- Agrega más detalles del empleado si es necesario -->
+                </div>
+                <!-- Botón de edición de horario -->
+                {% if user.is_superuser %}
+                <div class="mt-4">
+                    <button onclick="window.location.href='{% url 'update_horario' horario.id %}'" id="OpenEditFormHorario" class="align-middle select-none flex items-center gap-3 mt-3 text-center uppercase transition-all text-sm py-1 px-3 rounded-lg border border-gray-400 focus:ring focus:ring-gray-300 active:opacity-85" type="button" style="position: relative; overflow: hidden;">
+                        <i class='bx bx-edit text-xl text-blue-900'></i>
+                        Editar
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p>No hay horarios registrados.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

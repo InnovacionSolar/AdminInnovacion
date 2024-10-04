@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    <form method="POST">
+        {% csrf_token %}
+        <div class="bg-white p-4 rounded shadow-md  w-full">
+            <p class="text-lg font-semibold mb-4">¿Estás seguro de que deseas eliminar el registro?
+                {{product.nombre}}
+            </p>
+            <div class="flex justify-end">
+                <a href="{% url "Inventario_Home" %}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-4">Cancelar</a>
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
+            </div>
+        </div>
+    </form>
+
+</section>
+{% endblock content %}

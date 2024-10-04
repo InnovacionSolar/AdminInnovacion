@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    <form method="POST" class="bg-white shadow-md rounded px-8 py-5 pb-8 mb-4">
+        {% csrf_token %}
+        <div class="mb-4">
+            <h2 class="font-bold text-2xl mb-2 text-red-600">Eliminar Registro</h2>
+            <p class="text-gray-700">¿Seguro que quieres eliminar el registro de {{ empleado.nombre }} {{ empleado.apellido }}?</p>
+            <p class="mt-2 text-sm text-gray-600">
+                Se eliminará todo el registro de este empleado como sus datos personales, su historial laboral, sus documentos, asistencia, etc.
+            </p>
+        </div>
+        <div class="flex items-center justify-evenly">
+            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4" type="submit">
+                Eliminar
+            </button>
+            <a href="{% url 'Empleados' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Cancelar
+            </a>
+        </div>
+    </form>
+<section/>
+{% endblock %}  

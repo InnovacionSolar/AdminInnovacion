@@ -1,0 +1,182 @@
+{% load static tailwind_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Innovación Solar Perú Shop" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://www.innovacionsolarperu.com/" />
+	<meta property="og:title" content="Innovación Solar Perú Shop" />
+	<meta property="og:description" content="Innovación Solar Perú, Descubre los mejores paneles solares del Perú" />
+	<meta property="og:image" content="https://i.ibb.co/VLJ5dCk/app.webp" />
+	<meta property="twitter:image" content="https://i.ibb.co/VLJ5dCk/app.webp" />
+
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:url" content="https://www.innovacionsolarperu.com/" />
+	<meta property="twitter:title" content="Innovación Solar Perú" />
+	<meta property="twitter:description" content="Innovación Solar Perú, Descubre los mejores paneles solares del Perú" />
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'/>
+	<meta name="description" content="Innovación Solar Perú, Descubre los mejores paneles solares del Perú" />
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100;200;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <script src="https://js.stripe.com/v3/"></script>
+	<meta name="description" content="Innovación Solar Perú, Descubre los mejores productos solares del Perú" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+
+    <!-- DATATABLES -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+    <!-- GRAFICOS -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <!-- Aletas -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- DataPicker-->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+
+
+    {% tailwind_css %}
+    <title>
+        Innovación Solar Perú 
+    </title>
+    {% block estilos %}
+    {% endblock estilos %}
+</head>
+<body class="overflow-y-hidden">
+    
+    {% block navegacion %}
+            {% include "src/components/navbar.html" %}
+            {% include "src/components/aside.html" %}
+    {% endblock navegacion %}
+
+    {% block content %}
+            
+    {% endblock content %}
+
+    {% block footer %}{% endblock footer %}
+
+    {% block javascript %}
+    <script>
+            $(function() {
+                $('.datepicker').datepicker({
+                    dateFormat: 'dd/mm/yy',  
+                    showOtherMonths: true,   
+                    selectOtherMonths: true, 
+                    changeMonth: true,        
+                    changeYear: true,         
+                    yearRange: '1970:2030',   
+                    showButtonPanel: true,    
+                    closeText: 'Cerrar',     
+                    currentText: 'Hoy',       
+                });
+                // Personaliza algunos estilos adicionales
+                $('.ui-datepicker').addClass('bg-gray-50 border-t-2 border-blue-500 rounded-md shadow-md p-2');
+                $('.ui-datepicker-header').addClass('bg-gray-300 p-2 mb-8'); 
+                $('.ui-datepicker-title').addClass('font-bold text-xl');
+                $('.ui-datepicker-calendar').addClass('mt-2');
+                $('.ui-datepicker-calendar table').addClass('leading-loose');
+                $('.ui-datepicker-calendar thead').addClass('bg-gray-300');
+                $('.ui-datepicker-calendar tbody').addClass('bg-gray-50');
+                $('.ui-datepicker-calendar td').addClass('p-3');
+            });
+            
+            const OpenSide = document.getElementById('OpenSide');
+            const SidebarLeft = document.getElementById('SidebarLeft');
+            const ContentDashboard  = document.getElementById('ContentDashboard');
+
+            // Acceder al icon de OpenSide para hacer los cambios
+            const iconElement = OpenSide.querySelector('i');
+
+
+                    // Función para cerrar el menú lateral
+                    function closeSidebar() {
+                        open = false;
+                        SidebarLeft.classList.add('-translate-x-full');
+                        ContentDashboard.classList.remove('ml-64');
+                        iconElement.classList.add('bx-menu');
+                        iconElement.classList.remove('bx-x');
+                    }
+
+                    // Escuchar el evento click en los enlaces del menú lateral
+                    document.querySelectorAll('#SidebarLeft a').forEach(link => {
+                        link.addEventListener('click', () => {
+                            if (window.innerWidth <= 768) {
+                                // Si la pantalla es móvil, cierra el menú lateral al hacer clic en un enlace
+                                closeSidebar();
+                            }
+                        });
+                    });
+
+                    // Función para abrir y cerrar el menú lateral
+                    function toggleSidebar() {
+                        open = !open;
+                        SidebarLeft.classList.toggle('-translate-x-full');
+                        ContentDashboard.classList.toggle('ml-64');
+
+                        if (open) {
+                            // icon X
+                            iconElement.classList.remove('bx-x');
+                            iconElement.classList.add('bx-menu');
+                        } else {
+                            iconElement.classList.remove('bx-menu');
+                            iconElement.classList.add('bx-x');
+                        }
+                    }
+
+                    // Función para cerrar el menú al cargar una nueva página
+                    function closeSidebarOnPageLoad() {
+                        if (window.innerWidth <= 768) {
+                            // Si la pantalla es móvil, cierra el menú lateral al cargar una nueva página
+                            closeSidebar();
+                        }
+                    }
+
+                    // Verificar el ancho de la pantalla al cargar y redimensionar
+                    window.addEventListener('resize', function() {
+                        if (window.innerWidth <= 768) {
+                            // Si la pantalla es móvil, el menú se cierra por defecto
+                            closeSidebar();
+                        } else {
+                            // Si la pantalla no es móvil, el menú se abre por defecto
+                            open = true;
+                            SidebarLeft.classList.remove('-translate-x-full');
+                            ContentDashboard.classList.add('ml-64');
+                            iconElement.classList.remove('bx-menu');
+                            iconElement.classList.add('bx-x');
+                        }
+                    });
+
+                    // Cerrar el menú al cargar una nueva página
+                    window.addEventListener('load', closeSidebarOnPageLoad);
+
+                    // Abrir y cerrar el menú al hacer clic en el botón
+                    OpenSide.addEventListener('click', toggleSidebar);
+                </script>
+    <script src="{% static "main.js" %}"></script>
+    {% endblock javascript %}
+    {% block script %}{% endblock script %}
+</body>
+</html>

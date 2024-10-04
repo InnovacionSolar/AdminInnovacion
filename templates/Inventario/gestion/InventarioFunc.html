@@ -1,0 +1,63 @@
+{% load static %}
+<table id="logsInventario">
+    <caption
+    class="text-xl py-6 font-semibold"
+    >Historial de ingreso de productos</caption>
+
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Nombre producto</th>
+            <th>Cantidad</th>
+            <th>Hora de ingreso</th>
+            <th>Encargado</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if logsentrada %}
+        {% for entrada in logsentrada %}
+            <tr>
+                <td>{{ entrada.fecha }}</td>
+                <td>{{ entrada.producto }}</td>
+                <td>{{ entrada.cantidad }}</td>
+                <td>{{ entrada.hora_ingreso }}</td>
+                <td>{{ entrada.encargado.nombre }}</td>
+            </tr>
+            {% endfor %}            
+        {% else %}
+    {% endif %}
+    </tbody>
+</table>
+<table id="logsInventario2">
+    <caption
+    class="text-xl py-6 font-semibold"
+    >Historial de salida de productos</caption>
+
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Nombre producto</th>
+            <th>Cantidad</th>
+            <th>Hora de salida</th>
+            <th>Encargado</th>
+            <th>Motivo</th>
+            <th>Ganancias</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if logsentrada %}
+        {% for entrada in logssalida %}
+            <tr>
+                <td>{{ entrada.fecha }}</td>
+                <td>{{ entrada.producto }}</td>
+                <td>{{ entrada.cantidad }}</td>
+                <td>{{ entrada.hora_salida }}</td>
+                <td>{{ entrada.encargado.nombre }}</td>
+                <td>{{ entrada.motivo }}</td>
+                <td>S/{{ entrada.ganacias }}</td>
+            </tr>
+            {% endfor %}            
+        {% else %}
+    {% endif %}
+    </tbody>
+</table>

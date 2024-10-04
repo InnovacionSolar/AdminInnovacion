@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    <div class="p-3">
+        <div class="bg-gradient-to-r from-sky-100 to-sky-200 rounded-xl mb-6">
+            <div class="p-7" style="background-image: url('{% static 'crystal.png' %}'); background-size: cover; background-position: center;">
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Bienvenido {{request.user.username|capfirst}} 👋
+                    </h1>
+                <p class="text-gray-600">Here's what's happening with your projects today.</p>
+            </div>
+        </div>
+        <div class="flex justify-between mb-5 items-center">
+            <p class="font-light">
+                Dashboard / <a href="#" class="font-semibold"> {{url}}</a>
+            </p>
+            <div class="bg-white border border-gray-300 rounded-lg ">
+                <p class="font-light flex items-center gap-1 text-gray-600 px-2 py-1.5 ">
+                    <i class='bx bx-calendar text-xl mr-2'></i>
+                    {{hora}}
+                </p>
+            </div>
+        </div>
+        
+        <div class="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
+                <div class="bg-clip-border mt-4 mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 absolute grid h-12 w-12 place-items-center">
+                    <i class='bx bx-group text-xl'></i>
+                </div>
+                    <div class="p-4 text-right">
+                    <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
+                        Total de empleados
+                    </p>
+                    <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
+                        {% if empleados %}
+                            {{empleados}}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="border-t border-blue-gray-50 p-4">
+                    <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
+                        <strong class="text-green-500 text-xs">
+                            <a href="{% url 'nuevo_empleado' %}" class="text-green-500">
+                                Agregar empleado
+                            </a>
+                        </strong>
+                    </p>
+                </div>
+            </div>
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
+                <div class="bg-clip-border mt-4 mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 absolute grid h-12 w-12 place-items-center">
+                    <i class='bx bx-list-ol text-xl' ></i>
+                </div>
+                    <div class="p-4 text-right">
+                    <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
+                        Cantidad de informes
+                    </p>
+                    <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
+                        {% if cantidad_informes %}
+                            {{cantidad_informes}}
+                            {% else %}
+                            0
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="border-t border-blue-gray-50 p-4">
+                    <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
+                        <strong class="text-green-500 text-xs">
+                            <a href="{% url 'Informes_home' %}" class="text-green-500">
+                                Revisar los informes
+                            </a>
+                        </strong>
+                    </p>
+                </div>
+            </div>
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
+                <div class="bg-clip-border mt-4 mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 absolute grid h-12 w-12 place-items-center">
+                    <i class='bx bx-task text-xl' ></i>
+                </div>
+                    <div class="p-4 text-right">
+                    <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
+                        Cantidad de productos
+                    </p>
+                    <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
+                        {% if cantidad_productos %}
+                            {{cantidad_productos}}
+                            {% else %}
+                            0
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="border-t border-blue-gray-50 p-4">
+                    <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
+                        <strong class="text-green-500 text-xs">
+                            <a href="{% url 'Inventario_Home' %}" class="text-green-500">
+                                Revisar los productos
+                            </a>
+                        </strong>
+                    </p>
+                </div>
+            </div>
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
+                <div class="bg-clip-border mt-4 mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 absolute grid h-12 w-12 place-items-center">
+                    <i class='bx bx-cake' ></i>
+                </div>
+                    <div class="p-4 text-right">
+                    <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
+                        Cumpleaños del mes
+                    </p>
+                    <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
+                        {% if cumpleaños_mes %}
+                            {{cumpleaños_mes}}
+                            {% else %}
+                            0
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="border-t border-blue-gray-50 p-4">
+                    <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
+                        <strong class="text-green-500 text-xs">
+                            <a href="#" class="text-blue-400" onclick="toggleModal()">
+                                {% if cumpleaños_mes_lista|length > 1 %}
+                                    {% for usercumple in cumpleaños_mes_lista %}
+                                        {{ usercumple.nombre }}{% if not forloop.last %},{% endif %} 
+                                    {% endfor %}
+                                    cumplen años este mes
+                                {% elif cumpleaños_mes_lista|length == 1 %}
+                                    {{ cumpleaños_mes_lista.0.nombre }} cumple años este mes
+                                {% else %}
+                                    Ningun empleado cumple años este mes
+                                {% endif %}
+                            </a>
+                        </strong>
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Grafics -->
+        <div class="flex max-md:flex-wrap gap-5 pb-12">
+                <figure class="highcharts-figure w-full">
+                    <div id="container"></div>
+                </figure>
+        </div>
+        
+        {% include "src/layouts/LinksFast.html" %}
+
+    </div>
+    <!-- Modal -->
+    <div id="modalCumpleanos" class="modal fixed inset-0 flex items-center justify-center hidden">
+        <div class="modal-container bg-white w-1/4 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <!-- Modal content -->
+            <div class="modal-content py-4 text-left px-6">
+                <div class="flex justify-between items-center pb-3">
+                    <p class="mb-2 text-2xl font-bold">Cumpleaños del Mes:</p>
+                    <div class="modal-close cursor-pointer z-50" onclick="toggleModal()">
+                        <i class='bx bx-x'></i>
+                    </div>
+                </div>
+                <div>
+                    {% if cumpleaños_mes_lista|length > 1 %}
+                        {% for usercumple in cumpleaños_mes_lista %}
+                            <p class="mt-2 text-gray-700">{{ usercumple.nombre }} cumple el {{ usercumple.fecha_nac.day }} de {{ usercumple.fecha_nac|date:"F" }}</p>
+                        {% endfor %}
+                    {% elif cumpleaños_mes_lista|length == 1 %}
+                        <p class="text-gray-700">{{ cumpleaños_mes_lista.0.nombre }} cumple el {{ cumpleaños_mes_lista.0.fecha_nac.day }} de {{ cumpleaños_mes_lista.0.fecha_nac|date:"F" }}</p>
+                    {% else %}
+                        <p class="text-gray-700">Ningún empleado cumple años este mes</p>
+                    {% endif %}
+                </div>
+                <div class="flex justify-end pt-2">
+                    <a href="{% url 'crear_notificacion' %}" class="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-700">Crear Notificación</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}
+{% block script %}
+<script>
+    function toggleModal() {
+        var modal = document.getElementById('modalCumpleanos');
+    modal.classList.toggle('hidden');
+    document.body.classList.toggle('overflow-hidden');
+    }
+
+Highcharts.chart('container', {
+    chart: {
+        type: 'column',
+        className: 'rounded-lg shadow-lg',
+        // Agregar padding al gráfico
+        spacingTop: 20,
+        spacingLeft: 20,
+
+    },
+    title: {
+        text: 'Reporte del ventas del año 2024',
+        align: 'left',
+    },
+    subtitle: {
+        text:
+            'Reporte de columnas',
+        align: 'left'
+    },
+    xAxis: {
+        categories: [
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Julio',
+            'Agosto',
+            'Setiembre',
+            'Octubre',
+            'Noviembre',
+            'Diciembre'
+        ],
+        crosshair: true,
+        accessibility: {
+            description: 'Meses'
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Valores $'
+        }
+    },
+    tooltip: {
+        valueSuffix: ' S/',
+    },
+    plotOptions: {
+        series: {
+            groupPadding: 0.1, // Ajusta el espacio entre las barras
+            pointPadding: 0.05 // Ajusta el espacio entre los puntos (barras)
+        }
+    },
+    series: [
+        {
+            name: 'Total',
+            showInLegend: false,
+            data: {{graph_sales_year_month|safe}}
+        },
+    ]
+});
+</script>
+{% endblock script %}

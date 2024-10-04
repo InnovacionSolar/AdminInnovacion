@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% block estilos %}
+<style>
+    .swiper-wrapper {
+        width: 350px;
+        height: 350px;
+    }
+    .swiper-slide {
+        margin-right: 20px;
+    }
+</style>
+{% endblock estilos %}
+{% block navegacion %}
+    {% include "src/components/navbar.html" %}
+    {% include "User/components/aside.html" %}
+{% endblock navegacion %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    {% include "Recursos/Form.html" %}
+    {% include "Recursos/Form2.html" %}
+    {% include "Recursos/Description.html" %}
+    {% if user.is_superuser %}
+    <div class="flex gap-4 pl-3 mb-5 ">
+        <button id="OpenFormCategoria" class="align-middle select-none flex items-center gap-3 mt-3  text-center uppercase transition-all text-xs py-1 px-3 rounded-lg border border-gray-400  focus:ring focus:ring-gray-300 active:opacity-[0.85]" type="button" style="position: relative; overflow: hidden;">
+            <i class='bx bx-purchase-tag-alt text-xl text-blue-900'></i>
+            Agregar Categoria
+        </button>
+        <button id="OpenFormCategoria2" class="align-middle select-none flex items-center gap-3 mt-3  text-center uppercase transition-all text-xs py-1 px-3 rounded-lg border border-gray-400  focus:ring focus:ring-gray-300 active:opacity-[0.85]" type="button" style="position: relative; overflow: hidden;">
+            <i class='bx bx-file text-xl text-blue-900'></i>
+            Agregar Recurso
+        </button>
+    </div>
+    {% else %}
+    {% endif %}
+        {% if sourcecat %}
+        <div class="swiper mySwiper">
+            {% for category in sourcecat %}
+                    <div class="p-2">
+                        <h2 class="text-2xl font-bold text-gray-800">
+                            {{ category.nombre }}
+                        </h2>
+                        <p class=" text-gray-600">
+                            Se encontraron {{ category.recurso_set.all.count }} recursos en esta categoría
+                        </p>
+                    </div>
+                    <div class="swiper-wrapper" id="{{category.nombre}}" >
+                        {% if category.recurso_set.all %}
+                            {% for recurso in category.recurso_set.all %}
+                            <div class="swiper-slide">
+                                <article class="relative group isolate flex flex-col justify-end mb-8 overflow-hidden rounded-2xl px-8 pb-8 pt-36 max-w-sm mt-6 transition-transform transform duration-500">
+                                    {% if recurso.background %}
+                                        <img src="{{recurso.background.url}}"" alt="{{ recurso.nombre }}" class="absolute inset-0 h-full w-full object-cover group-hover:scale-110 duration-500 transition-all">
+                                    {% else %}
+                                        <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a" alt="{{ recurso.nombre }}" class="absolute inset-0 h-full w-full object-cover group-hover:scale-110 duration-500 transition-all">
+                                    {% endif %}
+                                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
+                                        <h3 class="z-10 mt-3 text-2xl font-bold text-white">
+                                            {{ recurso.nombre }}
+                                        </h3>
+                                        <div class="z-10 gap-y-1 h-12 flex justify-between items-center overflow-hidden text-sm leading-6 text-gray-300">
+                                            <p class="text-sm">
+                                                {{ recurso.date_joined }}
+                                            </p>
+                                            <div class="flex items-center gap-3">
+                                                {% if recurso.link %}
+                                                <a href="{{ recurso.link }}" target="_blank">
+                                                    <i class='bx bx-link text-2xl'></i>
+                                                </a>
+                                                {% else %}
+                                                {% endif %}
+                                                {% if recurso.documento %}
+                                                <a href="{{recurso.documento.url }}" download>
+                                                    <i class='bx bxs-download text-2xl'></i>
+                                                </a>
+                                                {% else %}
+                                                {% endif %}
+                                                {% if recurso.descripcion %}
+                                                <a id="OpenDescription{{ forloop.counter }}" class="open-description" href="javascript:void(0);" data-description="{{ recurso.descripcion }}">
+                                                    <i class='bx bx-info-circle text-2xl'></i>
+                                                </a>
+                                                {% else %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                </article>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <span class="font-thin">
+                                No hay recursos en esta categoria
+                            </span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            {% else %}  
+            <span class="text-2xl">
+                No hay categorias
+            </span>
+            {% endif %}
+        </div>
+</section>
+{% endblock content %}
+{% block script %}
+<script>
+    // modal de descripción
+    document.querySelectorAll('.open-description').forEach(function(element) {
+        element.addEventListener('click', function() {
+            const description = this.getAttribute('data-description');
+            const modal = document.getElementById('ModalDescription');
+            modal.querySelector('#modal-description-content').textContent = description;
+            modal.classList.remove('hidden');
+        });
+    });
+
+    // cerrar el modal
+    document.getElementById('CloseDescription').addEventListener('click', function() {
+        document.getElementById('ModalDescription').classList.add('hidden');
+    });
+</script>
+{% endblock script %}

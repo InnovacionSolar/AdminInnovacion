@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block navegacion %}
+            {% include "src/components/navbar.html" %}
+            {% include "User/components/aside.html" %}
+{% endblock navegacion %}
+{% block content %}
+    <section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 h-full" id="ContentDashboard" >
+        <div class="p-5 w-full flex gap-5 max-sm:flex-wrap">
+            <form class="bg-white p-7 text-gray-800 rounded-lg shadow-lg w-1/2 max-sm:w-full" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <h1 class="font-bold text-black text-2xl mb-1 my-2">
+                    Información de la cuenta
+                </h1>
+                <p class="mb-5">
+                    Aqui podras cambiar tu información personal
+                </p>
+                <div class="flex gap-2 flex-col">
+                    {{EmpleadoForm}}
+                </div>
+                <div class="flex justify-center items-center space-x-3 mt-5">
+                    <input type="submit" class="text-white bg-blue-600 rounded-lg px-5 py-2" name="infosubmit" value="Actualizar Información" style="margin: 0 20px;">
+                    <a href="{% url 'Profile' %}" class="text-white bg-blue-600 rounded-lg px-5 py-2 inline-block text-center" style="margin: 0 20px;">
+                        Regresar
+                    </a>
+                </div>
+                
+            </form>
+            <form class="bg-white p-7 text-gray-800 rounded-lg h-full shadow-lg w-1/2 max-sm:w-full" method="POST">
+                {% csrf_token %}
+                <h1 class="font-bold text-black text-2xl mb-1 my-2">Cambiar contraseña</h1>
+                <p class="mb-5">
+                    Recordar que la contraseña debe tener al menos 8 caracteres
+                </p>
+                <div class="flex gap-2 flex-col">
+                    {{password_form}}
+                </div>
+                <input type="submit" class="text-white bg-blue-600 rounded-lg px-5 py-2 mt-5" name="passwordchange" value="Cambiar Contraseña">
+            </form>
+        </div>
+    </section>
+{% endblock content %}
+{% block script %}
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '{{ message }}',
+        });
+    </script>
+    {% endfor %}
+{% endif %}
+{% endblock script %}

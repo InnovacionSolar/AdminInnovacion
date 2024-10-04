@@ -1,0 +1,35 @@
+        <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+            <h2 class="text-lg font-semibold mb-2 flex items-center gap-4 mb-5"><i class='bx bx-link' ></i> Enlaces Rápidos</h2>
+
+            <ul class="grid grid-cols-2 gap-4">
+                <li class="flex items-center">
+                    <i class="bx bx-user-circle text-xl text-gray-600"></i>
+                    <a href="{% url "Empleados" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">Gestión de Empleados</a>
+                </li>
+
+                <li class="flex items-center">
+                    <i class="bx bx-task text-xl text-gray-600"></i>
+                    <a href="{% url 'crear_notificacion' %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Nueva Notificación
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <i class='bx bx-label text-xl'></i>
+                    <a href="{% url "Cargos_Home" %}" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Gestión de Cargos
+                    </a>
+                </li>
+
+                <li class="flex items-center">
+                    <i class="bx bx-bar-chart text-xl text-gray-600"></i>
+                    <a href="/reports" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">Informes</a>
+                </li>
+
+                <li class="flex items-center">
+                    <i class='bx bx-world text-xl text-gray-600' ></i>
+                    <a href="//www.innovacionsolarperu.com/" target="_blank" class="ml-2 text-gray-800 hover:text-indigo-600 transition duration-300">
+                        Página oficial
+                    </a>
+                </li>
+            </ul>
+        </div>

@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanizelib %}
+{% block estilos %}
+<style>
+.dataTables_length select {
+    background-position: 30px center; 
+    color: #4a5568; 
+    cursor: pointer; 
+    margin-bottom: 20px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5rem 0.75rem;
+    margin-left: 0.25rem;
+    border: none;
+    cursor: pointer;
+}
+
+.dataTables_wrapper .dataTables_info {
+    font-size: 14px;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+</style>
+{% endblock estilos %}
+<h1 class="font-semibold text-xl">
+    Inventario
+</h1>
+{% block navegacion %}
+    {% if request.user.is_superuser %}
+        {% include "src/components/navbar.html" %}
+        {% include "src/components/aside.html" %}
+    {% else %}
+        {% include "src/components/navbar.html" %}
+        {% include "User/components/aside.html" %}
+    {% endif %}
+{% endblock navegacion %}
+{% block content %}
+<section class="overflow-y-scroll bg-gray-200 pb-20 ml-64 p-4 h-full" id="ContentDashboard" >
+    <div>
+        {% include "Inventario/forms/Form.html" %}
+        {% include "Inventario/forms/Form2.html" %}
+        {% include "Inventario/forms/Form3.html" %}
+    </div>
+    <div>
+        <div class="flex justify-between mb-8 items-center">
+            {% include "Inventario/buttons/buttonsvar.html" %}
+        </div>
+        <div class="flex items-center gap-5 w-full">
+            <div x-data="{ open: false }" @keydown.escape="open = false" class="relative w-1/2 inline-block text-left mb-8">
+                <a @click="open = !open" class="py-4 px-5 shadow-lg  rounded-lg bg-white flex gap-3 items-center">
+                    {% if empresaselect %}
+                        <img src="{{empresaselect.logo.url}}{{AZURE_SAS_TOKEN}}" alt="{{empresa.nombre}}" class="w-8">
+                        {{empresaselect}}
+                    {% else %}
+                    Seleccionar sucursal
+                    {% endif %}
+                    <i class='bx bx-chevron-down text-xl'></i>
+                </a>
+                <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class=" absolute w-full  mt-2 rounded-md z-40 shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <div class="z-40" role="none">
+                        {% if empresas %}
+                        {% for empresa in empresas %}
+                            <a href="{% url "inventario_empresa" empresa.id %}" class="text-gray-700 hover:bg-gray-200 transition-all duration-300  z-40 flex gap-2 items-center px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-1">
+                                <img src="{{empresa.logo.url}}{{AZURE_SAS_TOKEN}}" alt="{{empresa.nombre}}" class="w-8">
+                                {{empresa.nombre}}
+                            {% if empresaselect.id == empresa.id %}
+                                <i class='bx bx-check-circle text-green-600'></i>
+                            {% else %}
+                            {% endif %}
+                            </a>
+                        {% endfor %}
+                        {% else %}
+                        {% endif %}
+                                <buttom id="OpenFormCategoria3" class="text-gray-700 hover:bg-gray-200 transition-all duration-300  z-40 flex gap-2 items-center px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-1">
+                                    <i class='bx bx-plus text-blue-700 ml-1.5 mr-2'></i>
+                                    Agregar sucursal
+                                </buttom>
+                    </div>
+                </div>
+            </div>
+            <div class="py-2 px-12 shadow-lg mb-8  w-1/2  rounded-lg bg-white flex gap-5 items-center">
+                <div class="bg-gray-100 rounded-full px-3 mt py-2">
+                    <i class='bx bx-box text-2xl text-green-600'></i>
+                </div>
+                <div>
+                    <p class="text-sm">Total de  productos </p>
+                    <p class="font-bold text-lg">{{productos.count}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-y-16">
+            <table id="myDataInventario">
+                <caption
+                class="text-xl py-6 font-semibold"
+                >Historial de Productos</caption>
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Categoria</th>
+                        <th>Local</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if productos %}
+                    {% for product in productos %}    
+                        <tr>
+                            <td>
+                                {% if product.picture %}
+                                    <img src="{{ product.picture.url }}{{AZURE_SAS_TOKEN}}" alt="{{ product.nombre }}" class="w-10 h-10" loading="lazy">
+                                {% else %}
+                                    <img src="{% static 'noimage.png' %}" alt="{{ product.nombre }}" class="w-10 h-10">
+                                {% endif %}
+                            </td>
+                            <td>{{ product.nombre }}</td>
+                            <td>{{ product.precio }}</td>
+                            <td>{{ product.stock }} disponibles</td>
+                            <td>
+                                {{ product.categoria.nombre }}
+                            </td>
+                            <td>
+                                {{ product.local.nombre }}
+                            </td>
+                            <td class="flex items-center gap-3">
+                                <a href="{% url "Inventario_Detail" product.id %}">
+                                    <i class='bx bx-show text-2xl'></i>
+                                </a>
+                                {% if user.is_superuser %}
+                                    <a href="{% url "InventarioEditView" product.id %}">
+                                        <i class='bx bx-edit text-2xl'></i>
+                                    </a>
+                                    <a href="{% url "Inventario_delete" product.id %}">
+                                        <i class='bx bx-trash text-2xl'></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}            
+                    {% else %}
+                    <tr>
+                        <td colspan="7">No hay productos disponibles.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+                {% include "Inventario/gestion/InventarioFunc.html" %}
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block script %}
+<script>
+$(document).ready(function() {
+    $('#myDataInventario').DataTable({
+        responsive: true,
+        order: [[ 0, "desc" ]],
+
+    });
+});
+$(document).ready(function() {
+    $('#logsInventario').DataTable({
+        responsive: true,
+        order: [[ 0, "desc" ]],
+
+    });
+});
+
+$(document).ready(function() {
+    $('#logsInventario2').DataTable({
+        responsive: true,
+        order: [[ 0, "desc" ]],
+    });
+});
+
+</script>
+<script>
+function toggleForm(buttonId, formId, action) {
+    document.getElementById(buttonId).addEventListener('click', function() {
+        const form = document.getElementById(formId);
+        form.classList[action]('hidden');
+    });
+}
+
+toggleForm('OpenFormCategoria', 'FormCategoria', 'remove');
+toggleForm('CloseFormCategoria', 'FormCategoria', 'add');
+toggleForm('OpenFormCategoria2', 'FormCategoria2', 'remove');
+toggleForm('CloseFormCategoria2', 'FormCategoria2', 'add');
+toggleForm('OpenFormCategoria3', 'FormEmpresa3', 'remove');
+toggleForm('CloseFormCategoria3', 'FormEmpresa3', 'add');
+toggleForm('OpenFormCategoria4', 'FormInventario', 'remove');
+toggleForm('CloseFormCategoria4', 'FormInventario', 'add');
+
+</script>
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: '{{ message.tags }}',
+            title: '{{ message.tags }}',
+            text: '{{ message }}',
+        });
+    </script>
+    {% endfor %}
+{% endif %}
+{% endblock script %}
